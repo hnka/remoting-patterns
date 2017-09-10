@@ -9,22 +9,22 @@ import com.hnkalhp.server.protocols.ServerRequestUDP;
 public class Server {
 	
 	public static final int PORT = 4200;
-	private ServerRequestHandler server;
+	private ServerRequestProtocol serverProtocol;
 	
 	public Server(ProtocolType protocol) {
 		
 		try {
 			switch (protocol) {
 			case TCP:
-				this.server = new ServerRequestTCP(Server.PORT);
+				this.serverProtocol = new ServerRequestTCP(Server.PORT);
 				break;
 	
 			case UDP:
-				this.server = new ServerRequestUDP(Server.PORT);
+				this.serverProtocol = new ServerRequestUDP(Server.PORT);
 				break;
 				
 			default:
-				this.server = new ServerRequestTCP(Server.PORT);
+				this.serverProtocol = new ServerRequestTCP(Server.PORT);
 				break;
 			}
 		} catch(IOException ioException) {
@@ -33,9 +33,12 @@ public class Server {
 		}
 	}
 	
-	// suportar paralelismo
-	public void startServerLoop() {
-		
+	public void startServerLoop() throws IOException, InterruptedException {
+		while(true) {
+			Object connection = this.serverProtocol.receive();
+			ServerRequestHandler requestThread = new ServerRequestHandler(serverProtocol, connection);
+			requestThread.start();
+		}
 	}
 	
 }

@@ -1,27 +1,24 @@
 package com.hnkalhp.server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-public abstract class ServerRequestHandler {
-	private int portNumber;
-	private ServerSocket welcomeSocket = null;
-	private Socket connectionSocket = null; // mudar pra suportar paralelismo
+public class ServerRequestHandler extends Thread {
 	
-	private int sentMessageSize;
-	private int receivedMessageSize;
-	private DataOutputStream outToClient = null;
-	private DataInputStream inFromClient = null;
-	
-	public ServerRequestHandler(int port) throws IOException {
-		this.portNumber = port;
-		this.welcomeSocket = new ServerSocket(port);
+	Object connection;
+	ServerRequestProtocol serverProtocol;
+	public ServerRequestHandler(ServerRequestProtocol serverProtocol, 
+			Object connection) {
+		this.connection = connection;
+		this.serverProtocol = serverProtocol;
 	}
 	
-	public abstract void send(byte[] msg) throws IOException, InterruptedException;
-	
-	public abstract byte[] receive() throws IOException, InterruptedException;
+	public void run() {
+		try {
+			byte[] data =  this.serverProtocol.getDataFromConnection(this.connection);
+			
+			// tratar data
+			
+			this.serverProtocol.send(this.connection, data);
+		} catch (Exception e) {
+			System.out.println("Erro no recebimento dos pacotes");
+		}
+	}
 }
