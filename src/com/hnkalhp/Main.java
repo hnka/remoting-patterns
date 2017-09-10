@@ -19,10 +19,9 @@ public class Main {
     		try {
     			for (int i = 0; i < 100; i++) {
     				Client client = new Client(protocol, "localhost");
-    				String result = client.requestToServer("projeto " + i);
+    				String result = client.requestToServer(args[2] + " " + i);
     				System.out.println("resultado: " + result);
 				}
-				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
