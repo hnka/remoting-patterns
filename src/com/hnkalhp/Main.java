@@ -17,7 +17,7 @@ public class Main {
     	if(args[1].toLowerCase().equals("client")) {
     		Client client = new Client(protocol, "localhost");
     		try {
-				String result = client.requestToServer("projeto");
+				String result = client.requestToServer(args[2]);
 				System.out.println("resultado: " + result);
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
