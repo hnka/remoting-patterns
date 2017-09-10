@@ -38,8 +38,8 @@ public class ClientRequestUDP extends ClientRequestHandler {
 		this.clientSocket.receive(inFromServer);
 
 		String messageFromServer = new String(inFromServer.getData());
-		// needs to return byte[]?
-		return null;
+		
+		return messageFromServer.getBytes();
 	}
 
 }
