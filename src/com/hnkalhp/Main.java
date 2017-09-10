@@ -10,15 +10,19 @@ public class Main {
     public static void main(String[] args) {
     	
     	ProtocolType protocol = ProtocolType.TCP;
-    	if(args[0].toLowerCase().equals(ProtocolType.UDP.toString())) {
+    	if(args[0].toUpperCase().equals(ProtocolType.UDP.toString())) {
 			protocol = ProtocolType.UDP;
 		}
     	
     	if(args[1].toLowerCase().equals("client")) {
-    		Client client = new Client(protocol, "localhost");
+    		
     		try {
-				String result = client.requestToServer("projeto");
-				System.out.println("resultado: " + result);
+    			for (int i = 0; i < 100; i++) {
+    				Client client = new Client(protocol, "localhost");
+    				String result = client.requestToServer("projeto " + i);
+    				System.out.println("resultado: " + result);
+				}
+				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

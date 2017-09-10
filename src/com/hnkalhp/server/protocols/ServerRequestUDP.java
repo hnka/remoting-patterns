@@ -23,7 +23,6 @@ public class ServerRequestUDP extends ServerRequestProtocol {
 	public void send(Object connection, byte[] msg) throws IOException, InterruptedException {
 		DatagramPacket outToClient = (DatagramPacket) connection;
 		this.connectionSocket.send(outToClient);
-		this.connectionSocket.close();
 	}
 
 	@Override
