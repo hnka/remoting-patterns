@@ -39,6 +39,8 @@ public class ServerRequestUDP extends ServerRequestHandler {
 		this.IPAddress = inFromClient.getAddress();
 		this.port = inFromClient.getPort();
 
+		this.connectionSocket.receive(inFromClient);
+
 		String messageFromClient = new String(inFromClient.getData());
 		// needs to return byte[]?
 		return null;
