@@ -1,9 +1,8 @@
 package com.hnkalhp.server.protocols;
 
-import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
@@ -13,6 +12,7 @@ import com.hnkalhp.server.ServerRequestProtocol;
 
 public class ServerRequestTCP extends ServerRequestProtocol {
 	
+	public static final char SEPARATOR_CARACTER = ';';
 	private ServerSocket welcomeSocket;
 
 	public ServerRequestTCP(int port) throws IOException {
@@ -29,16 +29,12 @@ public class ServerRequestTCP extends ServerRequestProtocol {
 		InputStream input = socket.getInputStream();
 		
 		String messageFromClient = "";
+		
 		int b = input.read();
-		while(b != -1) {
+		while(b != -1 && ((char) b) != SEPARATOR_CARACTER) {
 			messageFromClient = messageFromClient + ((char) b);
-			System.out.println(messageFromClient);
 			b = input.read();
-			System.out.println(b);
 		}
-		System.out.println(messageFromClient);
-		System.out.println("out");
-//		String messageFromClient = (String) inFromClient.readObject();
 		
 		return messageFromClient;
 	}
@@ -47,9 +43,10 @@ public class ServerRequestTCP extends ServerRequestProtocol {
 	public void send(Object connection, byte[] msg) throws IOException, InterruptedException {
 		Socket connectionSocket = (Socket)connection;
 		OutputStream output = connectionSocket.getOutputStream();
-		ObjectOutputStream outToClient = new ObjectOutputStream(output);
+		DataOutputStream outToClient = new DataOutputStream(output);
 		output.flush();
 		outToClient.write(msg);
+		outToClient.write(SEPARATOR_CARACTER);
 		output.close();
 		connectionSocket.close();
 	}

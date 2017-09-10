@@ -17,9 +17,8 @@ public class Main {
     	if(args[1].toLowerCase().equals("client")) {
     		Client client = new Client(protocol, "localhost");
     		try {
-    			System.out.println("indo");
-				client.requestToServer("projeto");
-				System.out.println("voltando");
+				String result = client.requestToServer("projeto");
+				System.out.println("resultado: " + result);
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -35,9 +34,9 @@ public class Main {
     	}
     	
     	if(args[1].toLowerCase().equals("server")) {
-			System.out.println("indo S");
+			System.out.println("inicializando Server");
     		Server server = new Server(protocol);
-			System.out.println("voltando S");
+			System.out.println("inicializado");
     		try {
 				server.startServerLoop();
 			} catch (IOException e) {
