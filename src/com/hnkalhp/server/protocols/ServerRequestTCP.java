@@ -2,7 +2,9 @@ package com.hnkalhp.server.protocols;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -10,39 +12,42 @@ import com.hnkalhp.server.ServerRequestProtocol;
 
 public class ServerRequestTCP extends ServerRequestProtocol {
 	
-	protected ServerSocket tcpServerSocket = null;
+	private ServerSocket welcomeSocket;
 
 	public ServerRequestTCP(int port) throws IOException {
 		super(port);
-		this.tcpServerSocket = new ServerSocket(port);
+	}
+	
+	@Override
+	public void initializeSockets (int port) throws IOException {
+		this.welcomeSocket = new ServerSocket(port);
+	}
+	
+	public String getDataFromConnection(Object connection) throws IOException, ClassNotFoundException {
+		Socket socket = (Socket)connection;
+		InputStream input = socket.getInputStream();
+		
+		ObjectInputStream inFromClient = new ObjectInputStream(input);
+
+		String messageFromClient = (String) inFromClient.readObject();
+		
+		return messageFromClient;
 	}
 
 	@Override
 	public void send(Object connection, byte[] msg) throws IOException, InterruptedException {
-		Socket socket = (Socket)connection;
-		ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+		Socket connectionSocket = (Socket)connection;
+		OutputStream output = connectionSocket.getOutputStream();
+		ObjectOutputStream outToClient = new ObjectOutputStream(output);
 		output.flush();
-		output.write(msg);
+		outToClient.write(msg);
 		output.close();
-		socket.close();
+		connectionSocket.close();
 	}
 
 	@Override
 	public Object receive() throws IOException, InterruptedException {
-		return this.tcpServerSocket.accept();
-	}
-	
-	public byte[] getDataFromConnection(Object connection) throws IOException {
-		Socket socket = (Socket)connection;
-		InputStream input = socket.getInputStream();
-		String result = "";
-		int value = input.read();
-		while(value != -1) {
-			byte caracter = (byte)value;
-			result = result + ((char) caracter);
-		}
-		
-		return result.getBytes();
+		return this.welcomeSocket.accept();
 	}
 
 }

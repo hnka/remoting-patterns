@@ -1,5 +1,6 @@
 package com.hnkalhp.server;
 
+
 public class ServerRequestHandler extends Thread {
 	
 	Object connection;
@@ -12,11 +13,13 @@ public class ServerRequestHandler extends Thread {
 	
 	public void run() {
 		try {
-			byte[] data =  this.serverProtocol.getDataFromConnection(this.connection);
+			String messageFromClient =  this.serverProtocol.getDataFromConnection(this.connection);
 			
-			// tratar data
+			// ver oq vai retornar pro client
 			
-			this.serverProtocol.send(this.connection, data);
+			byte[] dataResponse = new byte[0];
+			
+			this.serverProtocol.send(this.connection, dataResponse);
 		} catch (Exception e) {
 			System.out.println("Erro no recebimento dos pacotes");
 		}

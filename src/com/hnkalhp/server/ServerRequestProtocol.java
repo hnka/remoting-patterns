@@ -1,6 +1,7 @@
 package com.hnkalhp.server;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public abstract class ServerRequestProtocol {
 	protected int portNumber;
@@ -10,11 +11,13 @@ public abstract class ServerRequestProtocol {
 	
 	public ServerRequestProtocol(int port) throws IOException {
 		this.portNumber = port;
+		this.initializeSockets(port);
 	}
+	public abstract void initializeSockets(int port) throws IOException;
 	
 	public abstract void send(Object connection, byte[] msg) throws IOException, InterruptedException;
 	
 	public abstract Object receive() throws IOException, InterruptedException;
 	
-	public abstract byte[] getDataFromConnection(Object connection) throws IOException;
+	public abstract String getDataFromConnection(Object connection) throws IOException, ClassNotFoundException;
 }
