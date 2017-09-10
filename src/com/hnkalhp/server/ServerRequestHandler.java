@@ -14,13 +14,12 @@ public class ServerRequestHandler extends Thread {
 	public void run() {
 		try {
 			String messageFromClient =  this.serverProtocol.getDataFromConnection(this.connection);
-			
-			// ver oq vai retornar pro client
-			
-			byte[] dataResponse = new byte[0];
+
+			byte[] dataResponse = messageFromClient.toUpperCase().getBytes();
 			
 			this.serverProtocol.send(this.connection, dataResponse);
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Erro no recebimento dos pacotes");
 		}
 	}

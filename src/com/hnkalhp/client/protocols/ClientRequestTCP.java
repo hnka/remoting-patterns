@@ -16,26 +16,24 @@ public class ClientRequestTCP extends ClientRequestHandler {
 
 	public ClientRequestTCP(String host, int port) throws UnknownHostException, IOException {
 		super(host, port);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void initializeSockets (String host, int port) throws IOException {
 		this.clientSocket = new Socket(host, port);
-		this.outToServer = new ObjectOutputStream(this.clientSocket.getOutputStream());
-		this.inFromServer = new ObjectInputStream(this.clientSocket.getInputStream());
 	}
 
 	@Override
 	public void send(byte[] msg) throws IOException, InterruptedException {
+		this.outToServer = new ObjectOutputStream(this.clientSocket.getOutputStream());
 		this.outToServer.write(msg);
 	}
 
 	@Override
 	public byte[] receive() throws IOException, InterruptedException, ClassNotFoundException {
+		this.inFromServer = new ObjectInputStream(this.clientSocket.getInputStream());
 		String messageFromServer = (String) this.inFromServer.readObject();
-		//byte[] ?
-		return null;
+		return messageFromServer.getBytes();
 	}
 
 }

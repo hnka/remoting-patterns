@@ -1,5 +1,6 @@
 package com.hnkalhp.server.protocols;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -27,9 +28,17 @@ public class ServerRequestTCP extends ServerRequestProtocol {
 		Socket socket = (Socket)connection;
 		InputStream input = socket.getInputStream();
 		
-		ObjectInputStream inFromClient = new ObjectInputStream(input);
+		String messageFromClient = "";
+		System.out.println("in");
+		int b = input.read();
+		while(b != -1) {
+			messageFromClient = messageFromClient + (char) b;
+			System.out.println(messageFromClient);
+			b = input.read();
+		}
 
-		String messageFromClient = (String) inFromClient.readObject();
+		System.out.println("out");
+//		String messageFromClient = (String) inFromClient.readObject();
 		
 		return messageFromClient;
 	}

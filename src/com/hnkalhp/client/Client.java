@@ -35,9 +35,10 @@ public class Client {
 		}
 	}
 	
-	// dar suporte a paralelismo
-	public String requestToServer(String query) {
+	public String requestToServer(String query) throws IOException, InterruptedException, ClassNotFoundException {
+		this.client.send(query.getBytes());
 		
-		return null;
+		String result = new String(this.client.receive());
+		return result;
 	}
 }
