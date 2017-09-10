@@ -17,14 +17,17 @@ public abstract class ClientRequestHandler {
 	private DataInputStream inFromServer;
 	
 	public ClientRequestHandler(String host, int port) throws UnknownHostException, IOException {
-		this.host = host;
-		this.port = port;
-		this.clientSocket = new Socket(host, port);
-		this.outToServer = null;
-		this.inFromServer = null;
+//		this.host = host;
+//		this.port = port;
+//		this.clientSocket = new Socket(host, port);
+//		this.outToServer = null;
+//		this.inFromServer = null;
+		this.initializeSockets(host, port);
 	}
+
+	public abstract void initializeSockets(String host, int port) throws IOException;
 	
 	public abstract void send(byte[] msg) throws IOException, InterruptedException;
 	
-	public abstract byte[] receive() throws IOException, InterruptedException;
+	public abstract byte[] receive() throws IOException, InterruptedException, ClassNotFoundException;
 }
