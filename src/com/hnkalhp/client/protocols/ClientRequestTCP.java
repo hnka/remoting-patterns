@@ -1,5 +1,6 @@
 package com.hnkalhp.client.protocols;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,7 +12,7 @@ import com.hnkalhp.client.ClientRequestHandler;
 public class ClientRequestTCP extends ClientRequestHandler {
 
 	private Socket clientSocket;
-	private ObjectOutputStream outToServer;
+	private DataOutputStream outToServer;
 	private ObjectInputStream inFromServer;
 
 	public ClientRequestTCP(String host, int port) throws UnknownHostException, IOException {
@@ -25,8 +26,10 @@ public class ClientRequestTCP extends ClientRequestHandler {
 
 	@Override
 	public void send(byte[] msg) throws IOException, InterruptedException {
-		this.outToServer = new ObjectOutputStream(this.clientSocket.getOutputStream());
+		this.outToServer = new DataOutputStream(this.clientSocket.getOutputStream());
 		this.outToServer.write(msg);
+		this.outToServer.flush();
+		
 	}
 
 	@Override

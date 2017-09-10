@@ -29,14 +29,14 @@ public class ServerRequestTCP extends ServerRequestProtocol {
 		InputStream input = socket.getInputStream();
 		
 		String messageFromClient = "";
-		System.out.println("in");
 		int b = input.read();
 		while(b != -1) {
-			messageFromClient = messageFromClient + (char) b;
+			messageFromClient = messageFromClient + ((char) b);
 			System.out.println(messageFromClient);
 			b = input.read();
+			System.out.println(b);
 		}
-
+		System.out.println(messageFromClient);
 		System.out.println("out");
 //		String messageFromClient = (String) inFromClient.readObject();
 		
