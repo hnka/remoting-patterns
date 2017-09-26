@@ -10,6 +10,7 @@ public class NamingProxy extends ClientProxy implements INamingService {
     public NamingProxy (String hostName, int portNumber) {
         super(hostName, portNumber);
     }
+    public NamingProxy () { super(); }
 
     public void bind(String serviceName, ClientProxy clientProxy) throws Exception {};
 

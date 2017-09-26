@@ -1,4 +1,4 @@
-package com.hnkalhp.server;
+package com.hnkalhp.namingServer;
 
 import com.hnkalhp.client.Termination;
 import com.hnkalhp.client.marshaller.Marshaller;
@@ -8,17 +8,18 @@ import com.hnkalhp.client.requestor.message.MessageBody;
 import com.hnkalhp.client.requestor.message.MessageHeader;
 import com.hnkalhp.client.requestor.reply.ReplyBody;
 import com.hnkalhp.client.requestor.reply.ReplyHeader;
+import com.hnkalhp.server.ServerRequestHandler;
 
 import java.io.IOException;
 
 /**
  * Created by ceciliahunka on 26/09/17.
  */
-public class ConvertCaseInvoker {
+public class NamingInvoker {
 
-    public ConvertCaseInvoker() {}
+    public NamingInvoker () {}
 
-    public void invoke(ClientProxy clientProxy) throws IOException, ClassNotFoundException {
+    public void invoke(ClientProxy clientProxy, NamingRepository repository) throws Exception {
         ServerRequestHandler requestHandler = new ServerRequestHandler(clientProxy.getPortNumber());
 
         byte[] messageToBeUnmarshalled = null;
@@ -28,7 +29,7 @@ public class ConvertCaseInvoker {
         Marshaller marshaller = new Marshaller();
         Termination termination = new Termination();
 
-        ConvertCaseRemoteObject remoteObject = new ConvertCaseRemoteObject();
+        NamingRemoteObject remoteObject = new NamingRemoteObject(repository);
 
         while (true) {
 
@@ -36,9 +37,15 @@ public class ConvertCaseInvoker {
             messageUnmarshalled = marshaller.unmarshall(messageToBeUnmarshalled);
 
             switch (messageUnmarshalled.getBody().getRequestHeader().getOperation()) {
-                case "convertToUpperCase":
+                case "bind":
+                    String firstParam = (String) messageUnmarshalled.getBody().getRequestBody().getParameters().get(0);
+                    ClientProxy secondParam = (ClientProxy) messageUnmarshalled.getBody().getRequestBody().getParameters().get(1);
+                    remoteObject.bind(firstParam, secondParam);
+
+                    break;
+                case "lookup":
                     String param = (String) messageUnmarshalled.getBody().getRequestBody().getParameters().get(0);
-                    termination.setResult(remoteObject.convertToUpperCase(param));
+                    termination.setResult(remoteObject.lookup(param));
 
                     //verificar parametros
                     MessageHeader header = new MessageHeader("protocolo", 0, false, 0, 0);
@@ -51,30 +58,30 @@ public class ConvertCaseInvoker {
 
                     messageMarshalled = marshaller.marshall(messageToBeMarshalled);
                     requestHandler.send(messageMarshalled);
+
                     break;
-                case "convertToLowerCase":
-                    String lowerParam = (String) messageUnmarshalled.getBody().getRequestBody().getParameters().get(0);
-                    termination.setResult(remoteObject.convertToLowerCase(lowerParam));
+                case "list":
+                    termination.setResult(remoteObject.list());
 
                     //verificar parametros
-                    MessageHeader lowerHeader = new MessageHeader("protocolo", 0, false, 0, 0);
+                    MessageHeader listHeader = new MessageHeader("protocolo", 0, false, 0, 0);
 
-                    ReplyHeader lowerReplyHeader = new ReplyHeader("", 0, 0);
-                    ReplyBody lowerReplyBody = new ReplyBody(termination.getResult());
+                    ReplyHeader listReplyHeader = new ReplyHeader("", 0, 0);
+                    ReplyBody listReplyBody = new ReplyBody(termination.getResult());
 
-                    MessageBody lowerBody = new MessageBody(null, null, lowerReplyHeader, lowerReplyBody);
-                    Message lowerMessageToBeMarshalled = new Message(lowerHeader, lowerBody);
+                    MessageBody listBody = new MessageBody(null, null, listReplyHeader, listReplyBody);
+                    Message listMessageToBeMarshalled = new Message(listHeader, listBody);
 
-                    messageMarshalled = marshaller.marshall(lowerMessageToBeMarshalled);
+                    messageMarshalled = marshaller.marshall(listMessageToBeMarshalled);
                     requestHandler.send(messageMarshalled);
+
                     break;
                 default:
-                    System.out.println("Not a suitable method for CONVERT CASE, Try again.");
+                    System.out.println("Not a suitable method for NAMING, Try again.");
                     break;
             }
 
         }
-
 
     }
 

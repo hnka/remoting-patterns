@@ -10,7 +10,7 @@ public class ConvertCaseServer {
 
     public static void main (String[] args) throws Exception {
 
-        ConvertCaseInvoker invoker = new ConverCaseInvoker();
+        ConvertCaseInvoker invoker = new ConvertCaseInvoker();
         ConvertCaseProxy convertCase = new ConvertCaseProxy();
 
         NamingProxy naming = new NamingProxy("localhost", 3000);

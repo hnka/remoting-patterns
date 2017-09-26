@@ -1,5 +1,7 @@
 package com.hnkalhp.client.proxies;
 
+import com.hnkalhp.client.proxies.ClientProxy;
+
 import java.util.ArrayList;
 
 /**
