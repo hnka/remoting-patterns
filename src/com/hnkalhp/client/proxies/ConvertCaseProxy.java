@@ -14,6 +14,7 @@ public class ConvertCaseProxy extends ClientProxy implements IConvertCase {
     public ConvertCaseProxy (String hostName, int portNumber) {
         super(hostName, portNumber);
     }
+    public ConvertCaseProxy () { super(); }
 
     public String convertToUpperCase(String text) throws Exception {
         Invocation invocation = new Invocation();

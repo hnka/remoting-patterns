@@ -13,4 +13,7 @@ public class RequestBody implements Serializable {
         this.parameters = parameters;
     }
 
+    public ArrayList<Object> getParameters() {
+        return parameters;
+    }
 }

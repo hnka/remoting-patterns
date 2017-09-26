@@ -8,7 +8,9 @@ import java.io.Serializable;
 public class ReplyBody implements Serializable {
     private Object operationResult;
 
-    public ReplyBody() {}
+    public ReplyBody(Object operationResult) {
+        this.operationResult = operationResult;
+    }
 
     public Object getOperationResult() {
         return operationResult;

@@ -13,11 +13,12 @@ public class ClientProxy implements Serializable {
     protected int portNumber;
     protected int objectId;
 
-    public ClientProxy () {}
+    public ClientProxy() {}
 
     public ClientProxy (String hostName, int portNumber) {
         this.hostName = hostName;
         this.portNumber = portNumber;
+        this.objectId = this.hashCode();
     }
 
     public String getHostName() {

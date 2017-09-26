@@ -28,11 +28,10 @@ public class Requestor {
 
         Message messageUnmarshalled;
 
-        // in case of multiple requests, create serialization to pass onto this method
-        RequestHeader requestHeader = new RequestHeader("", 0, true, 0, inv.getOperationName());
+        // conferir os parametros do request header / body e message header / body
+        RequestHeader requestHeader = new RequestHeader("", 0, true, inv.getObjectId(), inv.getOperationName());
         RequestBody requestBody = new RequestBody(inv.getParameters());
 
-        // in case of multiple requests, create serialization to pass onto this method
         MessageHeader messageHeader = new MessageHeader("MIOP", 0, false, 0, 0);
         MessageBody messageBody = new MessageBody(requestHeader, requestBody, null, null);
         Message messageToBeMarshalled = new Message(messageHeader, messageBody);
