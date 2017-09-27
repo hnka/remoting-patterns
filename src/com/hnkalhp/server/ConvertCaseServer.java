@@ -11,7 +11,7 @@ public class ConvertCaseServer {
     public static void main (String[] args) throws Exception {
 
         ConvertCaseInvoker invoker = new ConvertCaseInvoker();
-        ConvertCaseProxy convertCase = new ConvertCaseProxy();
+        ConvertCaseProxy convertCase = new ConvertCaseProxy("localhost", 5000);
 
         NamingProxy naming = new NamingProxy("localhost", 3000);
         naming.bind("ConvertCase", convertCase);

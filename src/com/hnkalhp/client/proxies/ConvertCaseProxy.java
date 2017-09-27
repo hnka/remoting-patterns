@@ -34,6 +34,9 @@ public class ConvertCaseProxy extends ClientProxy implements IConvertCase {
         invocation.setOperationName(methodName);
         invocation.setParameters(parameters);
 
+        System.out.println(this.getHostName());
+        System.out.println(this.getPortNumber());
+
         termination = requestor.invoke(invocation);
         return (String) termination.getResult();
     }

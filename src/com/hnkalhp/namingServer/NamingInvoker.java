@@ -42,7 +42,18 @@ public class NamingInvoker {
                     System.out.println("ON BIND");
                     String firstParam = (String) messageUnmarshalled.getBody().getRequestBody().getParameters().get(0);
                     ClientProxy secondParam = (ClientProxy) messageUnmarshalled.getBody().getRequestBody().getParameters().get(1);
-                    remoteObject.bind(firstParam, secondParam);
+                    termination.setResult(remoteObject.bind(firstParam, secondParam));
+
+                    MessageHeader bindHeader = new MessageHeader("protocolo", 0, false, 0, 0);
+
+                    ReplyHeader bindReplyHeader = new ReplyHeader("", 0, 0);
+                    ReplyBody bindReplyBody = new ReplyBody(termination.getResult());
+
+                    MessageBody bindBody = new MessageBody(null, null, bindReplyHeader, bindReplyBody);
+                    Message bindMessageToBeMarshalled = new Message(bindHeader, bindBody);
+
+                    messageMarshalled = marshaller.marshall(bindMessageToBeMarshalled);
+                    requestHandler.send(messageMarshalled);
                     break;
                 case "lookup":
                     String param = (String) messageUnmarshalled.getBody().getRequestBody().getParameters().get(0);

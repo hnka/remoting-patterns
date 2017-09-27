@@ -16,7 +16,7 @@ public class NamingProxy extends ClientProxy implements INamingService {
     }
     public NamingProxy () { super(); }
 
-    public void bind(String serviceName, ClientProxy clientProxy) throws Exception {
+    public boolean bind(String serviceName, ClientProxy clientProxy) throws Exception {
         Invocation invocation = new Invocation();
         Termination termination;
 
@@ -35,7 +35,8 @@ public class NamingProxy extends ClientProxy implements INamingService {
         invocation.setOperationName(methodName);
         invocation.setParameters(parameters);
 
-        requestor.invoke(invocation);
+        termination = requestor.invoke(invocation);
+        return (boolean) termination.getResult();
     }
 
     public ClientProxy lookup(String name) throws Exception {
@@ -56,7 +57,7 @@ public class NamingProxy extends ClientProxy implements INamingService {
         invocation.setOperationName(methodName);
         invocation.setParameters(parameters);
 
-        requestor.invoke(invocation);
+        //requestor.invoke(invocation);
         termination = requestor.invoke(invocation);
         return (ClientProxy) termination.getResult();
     }
@@ -78,7 +79,7 @@ public class NamingProxy extends ClientProxy implements INamingService {
         invocation.setOperationName(methodName);
         invocation.setParameters(parameters);
 
-        requestor.invoke(invocation);
+        //requestor.invoke(invocation);
         termination = requestor.invoke(invocation);
         return (ArrayList<String>) termination.getResult();
     }

@@ -15,9 +15,10 @@ public class NamingRemoteObject {
         this.namingRepository = namingRepository;
     }
 
-    public void bind(String serviceName, ClientProxy clientProxy) throws Exception {
+    public boolean bind(String serviceName, ClientProxy clientProxy) throws Exception {
         NamingRecord record = new NamingRecord(serviceName, clientProxy);
         this.namingRepository.setNamingRecord(record);
+        return true;
     }
 
     public ClientProxy lookup(String name) throws Exception {

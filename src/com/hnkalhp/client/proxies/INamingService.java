@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public interface INamingService {
 
-    void bind(String serviceName, ClientProxy clientProxy) throws Exception;
+    boolean bind(String serviceName, ClientProxy clientProxy) throws Exception;
     ClientProxy lookup(String name) throws Exception;
     ArrayList<String> list() throws Exception;
 
