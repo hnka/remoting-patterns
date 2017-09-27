@@ -23,7 +23,7 @@ public class ServerRequestHandler extends Thread {
 	}
 
     public byte[] receive () throws IOException {
-    	int msgSize = inFromClient.read();
+    	int msgSize = inFromClient.readInt();
 		byte[] result = new byte[msgSize];
 		int byteReads = this.inFromClient.read(result);
 		
