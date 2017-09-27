@@ -12,9 +12,6 @@ import com.hnkalhp.client.requestor.request.RequestHeader;
 
 import java.io.IOException;
 
-/**
- * Created by ceciliahunka on 24/09/17.
- */
 public class Requestor {
 
     public Termination invoke(Invocation inv) throws IOException, InterruptedException, ClassNotFoundException {

@@ -3,9 +3,6 @@ package com.hnkalhp.client.proxies;
 import java.io.Serializable;
 import java.net.UnknownHostException;
 
-/**
- * Created by ceciliahunka on 24/09/17.
- */
 public class ClientProxy implements Serializable {
 
     //private static final long serialVersionUID = 1L;

@@ -2,9 +2,6 @@ package com.hnkalhp.client;
 
 import java.util.ArrayList;
 
-/**
- * Created by ceciliahunka on 24/09/17.
- */
 public class Invocation {
 
     private ArrayList<Object> parameters;

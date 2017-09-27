@@ -4,9 +4,6 @@ import com.hnkalhp.client.requestor.message.Message;
 
 import java.io.*;
 
-/**
- * Created by ceciliahunka on 24/09/17.
- */
 public class Marshaller {
 
     public byte[] marshall(Message message) throws IOException {

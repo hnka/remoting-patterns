@@ -6,9 +6,6 @@ import com.hnkalhp.client.requestor.Requestor;
 
 import java.util.ArrayList;
 
-/**
- * Created by ceciliahunka on 24/09/17.
- */
 public class ConvertCaseProxy extends ClientProxy implements IConvertCase {
 
     public ConvertCaseProxy (String hostName, int portNumber) {

@@ -2,9 +2,6 @@ package com.hnkalhp.client.requestor.message;
 
 import java.io.Serializable;
 
-/**
- * Created by ceciliahunka on 24/09/17.
- */
 public class MessageHeader implements Serializable {
 
     private String magic;

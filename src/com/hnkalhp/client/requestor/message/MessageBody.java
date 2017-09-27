@@ -7,9 +7,6 @@ import com.hnkalhp.client.requestor.reply.ReplyBody;
 
 import java.io.Serializable;
 
-/**
- * Created by ceciliahunka on 24/09/17.
- */
 public class MessageBody implements Serializable {
 
     private RequestHeader requestHeader;

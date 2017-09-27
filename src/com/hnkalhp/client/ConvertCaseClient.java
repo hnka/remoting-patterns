@@ -6,9 +6,6 @@ import com.hnkalhp.client.proxies.NamingProxy;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-/**
- * Created by ceciliahunka on 24/09/17.
- */
 public class ConvertCaseClient {
 
     public static void main (String[] args) throws UnknownHostException, IOException, Exception {
