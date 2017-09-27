@@ -15,10 +15,10 @@ public class ConvertCaseClient {
 
         NamingProxy naming = new NamingProxy("localhost", 3000);
         ConvertCaseProxy convertCase = (ConvertCaseProxy) naming.lookup("ConvertCase");
-        System.out.println(convertCase);
-        System.out.println(convertCase.getPortNumber());
-        System.out.println(convertCase.getHostName());
-        String result = convertCase.convertToUpperCase("eu estou tentando crescer");
+
+        String testing = "eu estou tentando crescer";
+        System.out.println(testing);
+        String result = convertCase.convertToUpperCase(testing);
         System.out.println(result);
     }
 

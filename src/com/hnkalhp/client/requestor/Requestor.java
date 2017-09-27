@@ -42,9 +42,6 @@ public class Requestor {
         messageToBeUnmarshalled = requestHandler.receive();
         messageUnmarshalled = marshaller.unmarshall(messageToBeUnmarshalled);
 
-        System.out.println("REQUESTOR RETURN");
-        System.out.println(messageUnmarshalled.getBody().getReplyBody().getOperationResult());
-
         termination.setResult(messageUnmarshalled.getBody().getReplyBody().getOperationResult());
 
         return termination;

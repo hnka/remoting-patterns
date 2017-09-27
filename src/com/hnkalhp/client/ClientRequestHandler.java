@@ -30,9 +30,7 @@ public class ClientRequestHandler {
 
 	public byte[] receive() throws IOException, InterruptedException, ClassNotFoundException {
 
-		System.out.println(this.clientSocket.isConnected());
 		int msgSize = inFromServer.readInt();
-		System.out.println(msgSize);
 		byte[] result = new byte[msgSize];
 		int byteReads = this.inFromServer.read(result);
 		
