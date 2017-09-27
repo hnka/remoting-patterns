@@ -14,9 +14,18 @@ public class ConvertCaseClient {
         ConvertCaseProxy convertCase = (ConvertCaseProxy) naming.lookup("ConvertCase");
 
         String testing = "eu estou tentando crescer";
-        System.out.println(testing);
-        String result = convertCase.convertToUpperCase(testing);
-        System.out.println(result);
+
+        int i = 0;
+        while (i < 10000) {
+            //System.out.println(i);
+            //System.out.println(testing);
+            String result = convertCase.convertToUpperCase(testing);
+            String resultLower = convertCase.convertToLowerCase(result);
+            System.out.println(result);
+            System.out.println(resultLower);
+            i++;
+        }
+
     }
 
 }
