@@ -10,7 +10,7 @@ public class NamingServer {
     public static void main (String[] args) throws Exception {
 
         NamingInvoker invoker = new NamingInvoker();
-        NamingProxy naming = new NamingProxy();
+        NamingProxy naming = new NamingProxy("localhost", 3000);
         NamingRepository repository = new NamingRepository();
 
         invoker.invoke(naming, repository);

@@ -39,10 +39,10 @@ public class NamingInvoker {
 
             switch (messageUnmarshalled.getBody().getRequestHeader().getOperation()) {
                 case "bind":
+                    System.out.println("ON BIND");
                     String firstParam = (String) messageUnmarshalled.getBody().getRequestBody().getParameters().get(0);
                     ClientProxy secondParam = (ClientProxy) messageUnmarshalled.getBody().getRequestBody().getParameters().get(1);
                     remoteObject.bind(firstParam, secondParam);
-
                     break;
                 case "lookup":
                     String param = (String) messageUnmarshalled.getBody().getRequestBody().getParameters().get(0);
