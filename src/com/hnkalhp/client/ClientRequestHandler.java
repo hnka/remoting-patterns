@@ -8,11 +8,6 @@ import java.net.UnknownHostException;
 
 public class ClientRequestHandler {
 
-	private String host;
-	private int port;
-	private int sentMessageSize;
-	private int receiveMessageSize;
-
 	private Socket clientSocket = null;
 	private DataOutputStream outToServer = null;
 	private DataInputStream inFromServer = null;
@@ -21,13 +16,36 @@ public class ClientRequestHandler {
 		this.initializeSockets(host, port);
 	}
 
-	public void initializeSockets(String host, int port) {
+	public void initializeSockets(String host, int port) throws UnknownHostException, IOException {
+		this.clientSocket = new Socket(host, port);
+		this.outToServer = new DataOutputStream(this.clientSocket.getOutputStream());
+		this.inFromServer = new DataInputStream(this.clientSocket.getInputStream());
 	}
 
 	public void send(byte[] msg) throws IOException, InterruptedException {
+		this.outToServer.writeInt(msg.length);
+		this.outToServer.write(msg);
+		this.outToServer.flush();
 	}
 
 	public byte[] receive() throws IOException, InterruptedException, ClassNotFoundException {
-		return null;
+		
+		int msgSize = inFromServer.read();
+		byte[] result = new byte[msgSize];
+		int byteReads = this.inFromServer.read(result);
+		
+		if(byteReads == -1) {
+			// error, dont read any byte 
+		}
+		
+		return result;
+	}
+	
+	public void closeConecction() {
+		try {
+			this.clientSocket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

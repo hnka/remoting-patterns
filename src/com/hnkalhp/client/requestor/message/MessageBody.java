@@ -4,7 +4,6 @@ import com.hnkalhp.client.requestor.request.RequestHeader;
 import com.hnkalhp.client.requestor.request.RequestBody;
 import com.hnkalhp.client.requestor.reply.ReplyHeader;
 import com.hnkalhp.client.requestor.reply.ReplyBody;
-import com.sun.tools.internal.ws.processor.model.Request;
 
 import java.io.Serializable;
 

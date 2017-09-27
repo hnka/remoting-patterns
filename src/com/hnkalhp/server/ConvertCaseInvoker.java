@@ -19,7 +19,8 @@ public class ConvertCaseInvoker {
     public ConvertCaseInvoker() {}
 
     public void invoke(ClientProxy clientProxy) throws IOException, ClassNotFoundException {
-        ServerRequestHandler requestHandler = new ServerRequestHandler(clientProxy.getPortNumber());
+        ServerResquestReader requestReader = new ServerResquestReader(clientProxy.getPortNumber());
+        ServerRequestHandler requestHandler;
 
         byte[] messageToBeUnmarshalled = null;
         byte[] messageMarshalled = null;
@@ -31,7 +32,7 @@ public class ConvertCaseInvoker {
         ConvertCaseRemoteObject remoteObject = new ConvertCaseRemoteObject();
 
         while (true) {
-
+        	requestHandler = requestReader.accept();
             messageToBeUnmarshalled = requestHandler.receive();
             messageUnmarshalled = marshaller.unmarshall(messageToBeUnmarshalled);
 

@@ -9,8 +9,7 @@ import com.hnkalhp.client.requestor.message.MessageHeader;
 import com.hnkalhp.client.requestor.reply.ReplyBody;
 import com.hnkalhp.client.requestor.reply.ReplyHeader;
 import com.hnkalhp.server.ServerRequestHandler;
-
-import java.io.IOException;
+import com.hnkalhp.server.ServerResquestReader;
 
 /**
  * Created by ceciliahunka on 26/09/17.
@@ -20,7 +19,8 @@ public class NamingInvoker {
     public NamingInvoker () {}
 
     public void invoke(ClientProxy clientProxy, NamingRepository repository) throws Exception {
-        ServerRequestHandler requestHandler = new ServerRequestHandler(clientProxy.getPortNumber());
+    	ServerResquestReader requestReader = new ServerResquestReader(clientProxy.getPortNumber());
+        ServerRequestHandler requestHandler;
 
         byte[] messageToBeUnmarshalled = null;
         byte[] messageMarshalled = null;
@@ -32,7 +32,8 @@ public class NamingInvoker {
         NamingRemoteObject remoteObject = new NamingRemoteObject(repository);
 
         while (true) {
-
+        	
+        	requestHandler = requestReader.accept();
             messageToBeUnmarshalled = requestHandler.receive();
             messageUnmarshalled = marshaller.unmarshall(messageToBeUnmarshalled);
 
