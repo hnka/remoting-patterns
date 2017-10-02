@@ -14,5 +14,9 @@ public class ConvertCaseRemoteObject {
     public String convertToLowerCase (String text) {
         return text.toLowerCase();
     }
+    
+    public int add(int a, int b) {
+    	return a + b;
+    }
 
 }

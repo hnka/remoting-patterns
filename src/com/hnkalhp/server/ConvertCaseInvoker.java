@@ -69,6 +69,23 @@ public class ConvertCaseInvoker {
                     messageMarshalled = marshaller.marshall(lowerMessageToBeMarshalled);
                     requestHandler.send(messageMarshalled);
                     break;
+                case "add":
+                	int addParam1 = (int) messageUnmarshalled.getBody().getRequestBody().getParameters().get(0);
+                	int addParam2 = (int) messageUnmarshalled.getBody().getRequestBody().getParameters().get(1);
+                    termination.setResult(remoteObject.add(addParam1, addParam2));
+
+                    //verificar parametros
+                    MessageHeader addHeader = new MessageHeader("protocolo", 0, false, 0, 0);
+
+                    ReplyHeader addReplyHeader = new ReplyHeader("", 0, 0);
+                    ReplyBody addReplyBody = new ReplyBody(termination.getResult());
+
+                    MessageBody addBody = new MessageBody(null, null, addReplyHeader, addReplyBody);
+                    Message addMessageToBeMarshalled = new Message(addHeader, addBody);
+
+                    messageMarshalled = marshaller.marshall(addMessageToBeMarshalled);
+                    requestHandler.send(messageMarshalled);
+                    break;
                 default:
                     System.out.println("Not a suitable method for CONVERT CASE, Try again.");
                     break;
