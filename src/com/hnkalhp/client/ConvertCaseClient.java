@@ -36,11 +36,11 @@ public class ConvertCaseClient {
         	
         	numberOfRequests += numberOfRequestsGrow;
         	
-        	long startTime = System.currentTimeMillis();
+        	long startTime = System.nanoTime();
         	for (int j = 0; j < numberOfRequests; j++) {
-        		convertCase.add(10, 11);
+        		convertCase.add(j, j);
 			}
-        	long elapsedTime = System.currentTimeMillis() - startTime;
+        	long elapsedTime = System.nanoTime() - startTime;
         	System.out.println(elapsedTime);
         	
         	Thread.sleep(timeInterTests);
