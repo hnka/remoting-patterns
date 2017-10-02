@@ -1,11 +1,18 @@
 package com.hnkalhp.server;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+import com.hnkalhp.client.proxies.IConvertCase;
+
 /**
  * Created by ceciliahunka on 26/09/17.
  */
-public class ConvertCaseRemoteObject {
+public class ConvertCaseRemoteObject extends UnicastRemoteObject implements IConvertCase {
 
-    public ConvertCaseRemoteObject() {}
+    public ConvertCaseRemoteObject() throws RemoteException {
+        super();
+    }
 
     public String convertToUpperCase (String text) {
         return text.toUpperCase();
