@@ -30,9 +30,9 @@ public class ClientRequestHandler {
         this.outToServer.write(msg);
         this.outToServer.flush();
 
-        this.clientSocket.close();
-        this.outToServer.close();
-        this.inFromServer.close();
+//        this.clientSocket.close();
+//        this.outToServer.close();
+//        this.inFromServer.close();
     }
 
     public byte[] receive() throws IOException, InterruptedException, ClassNotFoundException {

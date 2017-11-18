@@ -1,9 +1,11 @@
 package com.hnkalhp.momServer;
 
+import java.io.Serializable;
+
 /**
  * Created by ceciliahunka on 16/11/17.
  */
-public class Message {
+public class Message implements Serializable {
 
     private MessageHeader header;
     private MessageBody body;

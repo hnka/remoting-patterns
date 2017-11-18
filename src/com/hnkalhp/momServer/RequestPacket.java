@@ -1,9 +1,11 @@
 package com.hnkalhp.momServer;
 
+import java.io.Serializable;
+
 /**
  * Created by ceciliahunka on 16/11/17.
  */
-public class RequestPacket {
+public class RequestPacket implements Serializable {
 
     private RequestPacketHeader packetHeader;
     private RequestPacketBody packetBody;

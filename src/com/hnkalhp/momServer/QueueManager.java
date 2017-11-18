@@ -12,6 +12,33 @@ public class QueueManager {
     private int port;
     Map<String, Queue> queues = new HashMap<String, Queue>();
 
+    public QueueManager() {};
 
+    public String getHost() {
+        return host;
+    }
 
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public Map<String, Queue> getQueues() {
+        return queues;
+    }
+
+    public Queue getQueue(String queueName) {
+        Boolean queueExists = this.queues.containsKey(queueName);
+        if (!queueExists) {
+            this.queues.put(queueName, new Queue());
+        }
+        return this.queues.get(queueName);
+    }
 }

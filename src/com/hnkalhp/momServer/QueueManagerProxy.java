@@ -14,13 +14,15 @@ public class QueueManagerProxy implements IQueueManager {
         this.queueName = queueName;
     }
 
+    // stores messages on queue
     public void send(String m) throws IOException, InterruptedException {
 
-        ClientRequestHandler handler = new ClientRequestHandler("localhost", 1313);
+        ClientRequestHandler handler = new ClientRequestHandler("localhost", 3000);
         Marshaller marshaller = new Marshaller();
         RequestPacket packet = new RequestPacket();
         Message message = new Message();
 
+        // queue name on message header
         message.setHeader(new MessageHeader(this.queueName));
         message.setBody(new MessageBody(m));
 
@@ -34,11 +36,35 @@ public class QueueManagerProxy implements IQueueManager {
 
         Object packetObj = (Object) packet;
         handler.send(marshaller.marshall(packetObj));
-
     }
 
-    public String receive() throws IOException, InterruptedException {
+    // retrieve messages on queue
+    public String receive() throws IOException, InterruptedException, ClassNotFoundException {
         // finish implementation
-        return "";
+        // client request handler send + receive
+
+        ClientRequestHandler handler = new ClientRequestHandler("localhost", 3000);
+        Marshaller marshaller = new Marshaller();
+        RequestPacket packet = new RequestPacket();
+        Message message = new Message();
+
+        message.setHeader(new MessageHeader(this.queueName));
+        message.setBody(new MessageBody(""));
+
+        RequestPacketBody packetBody = new RequestPacketBody();
+        ArrayList<Object> parameters = new ArrayList<Object>(0);
+
+        packetBody.setParameters(parameters);
+        packetBody.setMessage(message);
+        packet.setPacketHeader(new RequestPacketHeader("receive"));
+        packet.setPacketBody(packetBody);
+
+        Object packetObj = (Object) packet;
+        handler.send(marshaller.marshall(packetObj));
+
+        byte[] response = handler.receive();
+        ReplyPacket messageUnmarshalled = (ReplyPacket) marshaller.unmarshall(response);
+
+        return messageUnmarshalled.getBody().getBody().getBody();
     }
 }

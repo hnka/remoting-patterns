@@ -1,11 +1,12 @@
 package com.hnkalhp.momServer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by ceciliahunka on 16/11/17.
  */
-public class RequestPacketBody {
+public class RequestPacketBody implements Serializable {
 
     private ArrayList<Object> parameters = new ArrayList<Object>();
     private Message message;
