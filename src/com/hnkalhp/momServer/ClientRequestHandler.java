@@ -14,6 +14,7 @@ public class ClientRequestHandler {
     private Socket clientSocket = null;
     private DataOutputStream outToServer = null;
     private DataInputStream inFromServer = null;
+    private boolean expectedReply;
 
     public ClientRequestHandler(String host, int port) throws UnknownHostException, IOException {
         this.initializeSockets(host, port);
@@ -30,9 +31,11 @@ public class ClientRequestHandler {
         this.outToServer.write(msg);
         this.outToServer.flush();
 
-//        this.clientSocket.close();
-//        this.outToServer.close();
-//        this.inFromServer.close();
+        if (!this.expectedReply) {
+            this.clientSocket.close();
+            this.outToServer.close();
+            this.inFromServer.close();
+        }
     }
 
     public byte[] receive() throws IOException, InterruptedException, ClassNotFoundException {
@@ -45,6 +48,10 @@ public class ClientRequestHandler {
             // error, dont read any byte
         }
 
+        this.clientSocket.close();
+        this.outToServer.close();
+        this.inFromServer.close();
+
         return result;
     }
 
@@ -55,4 +62,13 @@ public class ClientRequestHandler {
             e.printStackTrace();
         }
     }
+
+    public boolean isExpectedReply() {
+        return this.expectedReply;
+    }
+
+    public void setExpectedReply(boolean reply) {
+        this.expectedReply = reply;
+    }
+
 }

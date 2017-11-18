@@ -18,6 +18,7 @@ public class QueueManagerProxy implements IQueueManager {
     public void send(String m) throws IOException, InterruptedException {
 
         ClientRequestHandler handler = new ClientRequestHandler("localhost", 3000);
+        handler.setExpectedReply(false);
         Marshaller marshaller = new Marshaller();
         RequestPacket packet = new RequestPacket();
         Message message = new Message();
@@ -44,6 +45,8 @@ public class QueueManagerProxy implements IQueueManager {
         // client request handler send + receive
 
         ClientRequestHandler handler = new ClientRequestHandler("localhost", 3000);
+        handler.setExpectedReply(true);
+
         Marshaller marshaller = new Marshaller();
         RequestPacket packet = new RequestPacket();
         Message message = new Message();
