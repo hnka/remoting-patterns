@@ -37,7 +37,7 @@ public class QueueManager {
     public Queue getQueue(String queueName) {
         Boolean queueExists = this.queues.containsKey(queueName);
         if (!queueExists) {
-            this.queues.put(queueName, new Queue());
+            this.queues.put(queueName, new Queue(queueName));
         }
         return this.queues.get(queueName);
     }
