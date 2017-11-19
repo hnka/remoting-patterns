@@ -18,23 +18,36 @@ public class QueueServerThread implements Runnable {
     }
 
     public void run() {
-        Marshaller marshaller = new Marshaller();
-        byte[] messageMarshalled = null;
+        synchronized (this.queue) {
 
-        while (true) {
-            System.out.println("ON THREAD RUN");
-            if(this.queue.getSize() > this.queueSize) {
+            Marshaller marshaller = new Marshaller();
+            byte[] messageMarshalled = null;
 
-                Message message = this.queue.dequeue();
-                ReplyPacket reply = new ReplyPacket();
-                reply.setBody(message);
+            while (true) {
+                System.out.println("ON THREAD RUN");
 
                 try {
-                    messageMarshalled = marshaller.marshall(reply);
-                    handler.send(messageMarshalled);
-                    this.queueSize++;
-                } catch (IOException e) {
+                    this.queue.wait();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
+                }
+
+                System.out.println("ON THREAD CONTINUE");
+
+                if(this.queue.getSize() > this.queueSize) {
+
+                    Message message = this.queue.dequeue();
+                    ReplyPacket reply = new ReplyPacket();
+                    reply.setBody(message);
+
+                    try {
+                        messageMarshalled = marshaller.marshall(reply);
+                        handler.send(messageMarshalled);
+                        this.queueSize++;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
             }

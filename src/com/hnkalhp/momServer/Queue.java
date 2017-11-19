@@ -9,6 +9,7 @@ public class Queue {
 
     private String queueName;
     private ArrayList<Message> queue = new ArrayList<Message>();
+    private ArrayList<Thread> listeners = new ArrayList<Thread>();
 
     public Queue(String queueName) {
         this.queueName = queueName;
@@ -16,6 +17,9 @@ public class Queue {
 
     public void enqueue(Message msg) {
         this.queue.add(msg);
+        synchronized (this) {
+            this.notifyAll();
+        }
     }
 
     public Message dequeue() {
@@ -34,6 +38,10 @@ public class Queue {
 
     public int getSize() {
         return this.queue.size();
+    }
+
+    public void addListener(Thread t) {
+        this.listeners.add(t);
     }
 
 }

@@ -49,6 +49,7 @@ public class QueueInvoker {
                     QueueServerThread queueThread = new QueueServerThread(requestHandler, queueReceive);
 
                     Thread t = new Thread(queueThread);
+                    queueReceive.addListener(t);
                     t.start();
                     break;
                 default:
