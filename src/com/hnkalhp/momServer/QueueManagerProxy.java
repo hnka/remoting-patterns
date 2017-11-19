@@ -40,7 +40,7 @@ public class QueueManagerProxy implements IQueueManager {
     }
 
     // retrieve messages on queue
-    public void receive() throws IOException, InterruptedException, ClassNotFoundException {
+    public void receive(ISubscriber subscriber) throws IOException, InterruptedException, ClassNotFoundException {
         // finish implementation
         // client request handler send + receive
 
@@ -71,8 +71,7 @@ public class QueueManagerProxy implements IQueueManager {
             byte[] response = handler.receive();
             ReplyPacket messageUnmarshalled = (ReplyPacket) marshaller.unmarshall(response);
             String finalMessage = messageUnmarshalled.getBody().getBody().getBody();
-            Subscriber sub = new Subscriber();
-            sub.receiveMessage(finalMessage);
+            subscriber.receiveMessage(finalMessage);
         }
 
     }

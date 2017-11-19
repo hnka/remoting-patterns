@@ -8,6 +8,6 @@ import java.io.IOException;
 public interface IQueueManager {
 
     public void send(String msg) throws IOException, InterruptedException;
-    public void receive() throws IOException, InterruptedException, ClassNotFoundException;
+    public void receive(ISubscriber subscriber) throws IOException, InterruptedException, ClassNotFoundException;
 
 }
