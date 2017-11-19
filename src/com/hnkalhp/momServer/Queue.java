@@ -18,21 +18,22 @@ public class Queue {
         this.queue.add(msg);
     }
 
-    public Message dequeue(int index) {
+    public Message dequeue() {
 
-        if (this.queue.size() == 0 || this.queueSize() < index + 1) {
+        if (this.queue.size() == 0) {
             Message empty = new Message();
             empty.setHeader(new MessageHeader(this.queueName));
             empty.setBody(new MessageBody(""));
 
             return empty;
         } else {
-            Message message = this.queue.get(index);
+            Message message = this.queue.get(this.queue.size() - 1);
             return message;
         }
     }
 
-    public int queueSize() {
+    public int getSize() {
         return this.queue.size();
     }
+
 }

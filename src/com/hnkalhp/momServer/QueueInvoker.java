@@ -2,6 +2,8 @@ package com.hnkalhp.momServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ceciliahunka on 18/11/17.
@@ -11,6 +13,8 @@ public class QueueInvoker {
     public QueueInvoker() {};
 
     public void invoke(QueueManager queueManager, int port) throws IOException, ClassNotFoundException {
+
+        System.out.println("Starting server...");
 
         ServerRequestReader requestReader = new ServerRequestReader(port);
 
@@ -27,6 +31,7 @@ public class QueueInvoker {
 
             switch (messageUnmarshalled.getPacketHeader().getOperation()) {
                 case "send":
+                    System.out.println("New SEND REQUEST");
                     Message message = messageUnmarshalled.getPacketBody().getMessage();
                     String queueName = message.getHeader().getDestination();
 
@@ -34,20 +39,17 @@ public class QueueInvoker {
                     queue.enqueue(message);
                     break;
                 case "receive":
+                    System.out.println("New RECEIVE REQUEST");
                     RequestPacketBody packetBody =  messageUnmarshalled.getPacketBody();
                     Message receiveMessage = packetBody.getMessage();
-                    int index = (int) packetBody.getParameters().get(0);
 
                     String queueNameReceive = receiveMessage.getHeader().getDestination();
 
                     Queue queueReceive = queueManager.getQueue(queueNameReceive);
-                    Message messageToSend = queueReceive.dequeue(index);
+                    QueueServerThread queueThread = new QueueServerThread(requestHandler, queueReceive);
 
-                    ReplyPacket packet = new ReplyPacket();
-                    packet.setBody(messageToSend);
-
-                    messageMarshalled = marshaller.marshall(packet);
-                    requestHandler.send(messageMarshalled);
+                    Thread t = new Thread(queueThread);
+                    t.start();
                     break;
                 default:
                     System.out.println("Not a suitable method. Try again.");

@@ -30,8 +30,9 @@ public class ClientRequestHandler {
         this.outToServer.writeInt(msg.length);
         this.outToServer.write(msg);
         this.outToServer.flush();
-
+        System.out.println("Client Handler SEND");
         if (!this.expectedReply) {
+            System.out.println("Client Handler CLOSING SOCKETS");
             this.clientSocket.close();
             this.outToServer.close();
             this.inFromServer.close();
@@ -48,9 +49,9 @@ public class ClientRequestHandler {
             // error, dont read any byte
         }
 
-        this.clientSocket.close();
-        this.outToServer.close();
-        this.inFromServer.close();
+//        this.clientSocket.close();
+//        this.outToServer.close();
+//        this.inFromServer.close();
 
         return result;
     }
