@@ -9,9 +9,16 @@ public class Consumer {
 
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
 
+        int messageNotReadIndex = 0;
         QueueManagerProxy queue01Proxy = new QueueManagerProxy("queue01");
-        String response = queue01Proxy.receive();
-        System.out.println(response);
+
+
+        while (messageNotReadIndex < 5) {
+            String response = queue01Proxy.receive(messageNotReadIndex);
+            System.out.println("Response is: " + response);
+            messageNotReadIndex++;
+        }
+
     }
 
 }

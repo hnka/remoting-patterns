@@ -34,11 +34,14 @@ public class QueueInvoker {
                     queue.enqueue(message);
                     break;
                 case "receive":
-                    Message receiveMessage = messageUnmarshalled.getPacketBody().getMessage();
+                    RequestPacketBody packetBody =  messageUnmarshalled.getPacketBody();
+                    Message receiveMessage = packetBody.getMessage();
+                    int index = (int) packetBody.getParameters().get(0);
+
                     String queueNameReceive = receiveMessage.getHeader().getDestination();
 
                     Queue queueReceive = queueManager.getQueue(queueNameReceive);
-                    Message messageToSend = queueReceive.dequeue();
+                    Message messageToSend = queueReceive.dequeue(index);
 
                     ReplyPacket packet = new ReplyPacket();
                     packet.setBody(messageToSend);

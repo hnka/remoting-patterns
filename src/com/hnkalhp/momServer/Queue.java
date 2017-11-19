@@ -18,17 +18,16 @@ public class Queue {
         this.queue.add(msg);
     }
 
-    public Message dequeue() {
+    public Message dequeue(int index) {
 
-        if (this.queue.size() == 0) {
+        if (this.queue.size() == 0 || this.queueSize() < index + 1) {
             Message empty = new Message();
             empty.setHeader(new MessageHeader(this.queueName));
             empty.setBody(new MessageBody(""));
 
             return empty;
         } else {
-            Message message = this.queue.get(0);
-            this.queue.remove(0);
+            Message message = this.queue.get(index);
             return message;
         }
     }

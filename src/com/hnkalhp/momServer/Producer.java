@@ -9,8 +9,14 @@ public class Producer {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
+        int loop = 0;
         QueueManagerProxy queue01Proxy = new QueueManagerProxy("queue01");
-        queue01Proxy.send("sending message");
+
+        while (loop < 5) {
+            queue01Proxy.send("sending message " + loop);
+            loop++;
+        }
+
 
     }
 }
