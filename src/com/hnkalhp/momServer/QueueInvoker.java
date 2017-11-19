@@ -25,6 +25,8 @@ public class QueueInvoker {
             messageToBeUnmarshalled = requestHandler.receive();
             messageUnmarshalled = (RequestPacket) marshaller.unmarshall(messageToBeUnmarshalled);
 
+            System.out.println(messageUnmarshalled.getPacketHeader().getOperation());
+
             switch (messageUnmarshalled.getPacketHeader().getOperation()) {
                 case "send":
                     Message message = messageUnmarshalled.getPacketBody().getMessage();
@@ -48,6 +50,15 @@ public class QueueInvoker {
 
                     messageMarshalled = marshaller.marshall(packet);
                     requestHandler.send(messageMarshalled);
+                    break;
+                case "add":
+                    RequestPacketBody addPacketBody =  messageUnmarshalled.getPacketBody();
+                    Message addReceiveMessage = addPacketBody.getMessage();
+                    ISubscriber listener = (ISubscriber) addPacketBody.getParameters().get(0);
+
+                    String queueNameAdd = addReceiveMessage.getHeader().getDestination();
+                    Queue addQueue = queueManager.getQueue(queueNameAdd);
+                    addQueue.addListener(listener);
                     break;
                 default:
                     System.out.println("Not a suitable method. Try again.");

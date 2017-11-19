@@ -71,4 +71,31 @@ public class QueueManagerProxy implements IQueueManager {
 
         return messageUnmarshalled.getBody().getBody().getBody();
     }
+
+
+    public void addListener(ISubscriber subscriber) throws IOException, InterruptedException, ClassNotFoundException {
+
+        ClientRequestHandler handler = new ClientRequestHandler("localhost", 3000);
+        handler.setExpectedReply(true);
+        Marshaller marshaller = new Marshaller();
+        RequestPacket packet = new RequestPacket();
+        Message message = new Message();
+
+        // queue name on message header
+        message.setHeader(new MessageHeader(this.queueName));
+        message.setBody(new MessageBody(""));
+
+        RequestPacketBody packetBody = new RequestPacketBody();
+        ArrayList<Object> parameters = new ArrayList<Object>(0);
+        parameters.add(subscriber);
+
+        packetBody.setParameters(parameters);
+        packetBody.setMessage(message);
+        packet.setPacketHeader(new RequestPacketHeader("add"));
+        packet.setPacketBody(packetBody);
+
+        Object packetObj = (Object) packet;
+        handler.send(marshaller.marshall(packetObj));
+    }
+
 }

@@ -9,13 +9,16 @@ public class Queue {
 
     private String queueName;
     private ArrayList<Message> queue = new ArrayList<Message>();
+    private ArrayList<ISubscriber> listeners = new ArrayList<ISubscriber>();
 
     public Queue(String queueName) {
         this.queueName = queueName;
     }
 
     public void enqueue(Message msg) {
+
         this.queue.add(msg);
+        this.sendMessageToListeners(msg);
     }
 
     public Message dequeue(int index) {
@@ -34,5 +37,19 @@ public class Queue {
 
     public int queueSize() {
         return this.queue.size();
+    }
+
+    public void addListener(ISubscriber listener) {
+        this.listeners.add(listener);
+    }
+
+    public void sendMessageToListeners(Message message) {
+        int index = 0;
+        while (index < this.listeners.size()) {
+            ISubscriber sub = this.listeners.get(index);
+            String finalMessage = message.getBody().getBody();
+            sub.onEventReceived(finalMessage);
+            index++;
+        }
     }
 }
