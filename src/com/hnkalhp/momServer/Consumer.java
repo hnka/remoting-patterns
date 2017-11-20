@@ -11,7 +11,7 @@ public class Consumer {
 
         QueueManagerProxy queue01Proxy = new QueueManagerProxy("queue01");
         Subscriber sub = new Subscriber();
-        queue01Proxy.receive();
+        queue01Proxy.receive(sub);
 
     }
 
