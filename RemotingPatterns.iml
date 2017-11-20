@@ -7,6 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="amqp-client-4.3.0" level="project" />
+    <orderEntry type="library" name="com.googlecode.slf4j-maven-plugin-log:slf4j-maven-plugin-log:1.0.0" level="project" />
   </component>
 </module>
-
